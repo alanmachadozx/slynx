@@ -449,6 +449,14 @@ impl TypeChecker {
         Ok(target)
     }
 
+    pub fn get_type_from_ref(&self, ref_ty: TypeId) -> &HirType {
+        if let HirType::Reference { rf, .. } = self.types_module.get_type(&ref_ty) {
+            self.types_module.get_type(rf)
+        } else {
+            unreachable!("The provided ref_ty should be of type Reference");
+        }
+    }
+
     fn resolve_object_types(&mut self, ty: &HirType, fields: &mut [HirExpression]) -> Result<()> {
         let HirType::Struct { fields: fields_tys } = ty else {
             unreachable!("When resolving object types, a type 'struct' should be provided");
@@ -476,6 +484,7 @@ impl TypeChecker {
                 for (f_arg, t_args) in f_args.iter().zip(args.clone()) {
                     self.unify(&f_arg.ty, &t_args, span)?;
                 }
+                println!("Got {return_type:?}\n{:#?}", self.types_module);
                 return_type
             }
             HirExpressionKind::Int(_) => self.types_module.int_id(),
@@ -504,7 +513,7 @@ impl TypeChecker {
                 name,
                 ref mut fields,
             } => {
-                let obj = self.get_type_of_name(&name).clone();
+                let obj = self.get_type_from_ref(name).clone();
                 self.resolve_object_types(&obj, fields)?;
                 self.types_module.insert_unnamed_type(HirType::Reference {
                     rf: name,
