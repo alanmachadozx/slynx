@@ -40,7 +40,10 @@ impl Lexer {
         let chars = source.chars().collect::<Vec<_>>();
         let mut idx = 0;
         while idx < chars.len() {
-            let tk = match chars[idx] {
+            let Some(tk) = chars.get(idx) else {
+                break;
+            };
+            let tk = match tk {
                 '&' => {
                     if chars[idx + 1] == '&' {
                         idx += 1;
@@ -151,7 +154,7 @@ impl Lexer {
                     Token::string(buffer, start, idx)
                 }
                 c if c.is_whitespace() => {
-                    if c == '\n' {
+                    if *c == '\n' {
                         lines.push(idx);
                     }
                     idx += 1;
@@ -175,7 +178,7 @@ impl Lexer {
                         Token::int(buffer.parse::<i32>().unwrap(), start, idx)
                     }
                 }
-                c if c.is_alphabetic() || c == '_' => {
+                c if c.is_alphabetic() || *c == '_' => {
                     let mut buffer = String::new();
                     let start = idx;
                     while idx < chars.len() && (chars[idx].is_alphanumeric() || chars[idx] == '_') {
@@ -227,7 +230,7 @@ impl Lexer {
                 }
                 c => {
                     return Err(LexerError::UnrecognizedChar {
-                        char: c,
+                        char: *c,
                         index: idx,
                     });
                 }
