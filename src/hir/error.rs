@@ -1,5 +1,5 @@
 use crate::{
-    hir::{definitions::HirExpression, types::HirType},
+    hir::definitions::HirExpression,
     parser::ast::{ComponentExpression, Span},
 };
 
