@@ -1,24 +1,20 @@
 use std::path::PathBuf;
 
-use crate::{
-    checker::TypeChecker,
-    compiler::{js::WebCompiler, slynx_compiler::SlynxCompiler},
-    hir::SlynxHir,
-    intermediate::IntermediateRepr,
-};
-
-pub mod checker;
-pub mod compiler;
-pub mod parser;
-
-mod context;
-pub mod hir;
-pub mod intermediate;
+pub mod context;
+pub use backend::compiler;
+use backend::js::WebCompiler;
+use backend::slynx_compiler::SlynxCompiler;
 pub use context::*;
+use frontend::TypeChecker;
+pub use frontend::checker;
+use frontend::hir::SlynxHir;
+pub use frontend::parser;
+use middleend::IntermediateRepr;
+pub use middleend::intermediate;
 
 pub fn compile_code(path: PathBuf) -> color_eyre::eyre::Result<()> {
     let code = std::fs::read_to_string(&path)?;
-    let tokens = parser::lexer::Lexer::tokenize(&code)?;
+    let tokens = frontend::lexer::Lexer::tokenize(&code)?;
     let mut ast = parser::Parser::new(tokens);
     let decls = ast.parse_declarations()?;
     let mut hir = SlynxHir::new();

@@ -2,17 +2,12 @@ use std::{collections::HashMap, path::PathBuf, sync::Arc};
 
 use color_eyre::{Report, eyre::Result, owo_colors::OwoColorize};
 
-use crate::{
-    checker::{TypeChecker, error::TypeError},
-    compiler::slynx_compiler::SlynxCompiler,
-    hir::{SlynxHir, error::HIRError},
-    intermediate::IntermediateRepr,
-    parser::{
-        Parser,
-        error::ParseError,
-        lexer::{Lexer, error::LexerError},
-    },
-};
+use backend::compiler::slynx_compiler::SlynxCompiler;
+use frontend::checker::{TypeChecker, error::TypeError};
+use frontend::hir::{SlynxHir, error::HIRError};
+use frontend::lexer::{Lexer, error::LexerError};
+use frontend::parser::{Parser, error::ParseError};
+use middleend::IntermediateRepr;
 
 #[derive(Debug)]
 ///The type of the error that was generated
