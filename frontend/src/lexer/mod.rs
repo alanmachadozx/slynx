@@ -119,7 +119,20 @@ impl Lexer {
                     }
                 }
                 '/' => {
-                    if let Some('=') = chars.get(idx + 1) {
+                    if let Some('*') = chars.get(idx + 1){
+                        
+                        while idx < chars.len(){
+                            if let Some('\n')= chars.get(idx){
+                                lines.push(idx);
+                            }
+                            if let Some('*') = chars.get(idx) && let Some('/') = chars.get(idx + 1){
+                                break;
+                            }
+                            idx += 1;
+                        }
+                        continue;
+                    }else if let Some('=') = chars.get(idx + 1) {
+
                         idx += 1;
                         Token::slasheq(idx)
                     } else if let Some('/') = chars.get(idx +1){
@@ -129,6 +142,7 @@ impl Lexer {
                             }
                             idx += 1;
                         }
+                        continue;
                     } else {
                         Token::slash(idx)
                     }
