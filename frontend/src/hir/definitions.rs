@@ -1,6 +1,4 @@
-use crate::hir::{
-    DeclarationId, ExpressionId, PropertyId, SymbolPointer, TypeId, VariableId,
-};
+use crate::hir::{DeclarationId, ExpressionId, PropertyId, SymbolPointer, TypeId, VariableId};
 
 use common::ast::{Operator, Span};
 

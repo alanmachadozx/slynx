@@ -114,17 +114,6 @@ impl SlynxIR {
         Ok(self.insert_value(value))
     }
 
-    pub fn insert_instruction(
-        &mut self,
-        label: IRPointer<Label, 1>,
-        instr: Instruction,
-    ) -> IRPointer<Instruction, 1> {
-        self.instructions.push(instr);
-        let label = self.get_label_mut(label);
-        label.insert_instruction();
-        label.instruction().ptr_to_last()
-    }
-
     pub fn initialize_function(
         &mut self,
         ir: IRPointer<Context, 1>,

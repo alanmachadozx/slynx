@@ -7,6 +7,16 @@ use crate::{
 };
 
 impl SlynxIR {
+    pub fn insert_instruction(
+        &mut self,
+        label: IRPointer<Label, 1>,
+        instr: Instruction,
+    ) -> IRPointer<Instruction, 1> {
+        self.instructions.push(instr);
+        let label = self.get_label_mut(label);
+        label.insert_instruction();
+        label.instruction().ptr_to_last()
+    }
     ///Adds the provided `lhs` and `rhs` as a binary on the provided `label`. Its idealized to be the current one
     pub fn get_add_instruction(
         &mut self,
