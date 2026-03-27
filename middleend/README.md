@@ -24,7 +24,6 @@ The same idea is used for `isize`, if the backend has no isize representation, t
 Text and byte-oriented primitive types:
 
 * `str`: immutable UTF-8 string handle type
-* `bytes`: immutable byte-sequence handle type
 
 Language-level aliases currently used in examples:
 

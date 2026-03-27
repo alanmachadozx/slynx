@@ -293,9 +293,9 @@ impl SlynxContext {
             },
             Ok(module) => module,
         };
-        let mut ir = SlynxIR::new();
+        let mut ir = SlynxIR::new(hir.symbols_module);
 
-        if let Err(e) = ir.generate(hir.declarations, &types_module, &hir.symbols_module) {
+        if let Err(e) = ir.generate(hir.declarations, &types_module) {
             match e {
                 IRError::UnrecognizedVariable(_) => {}
                 IRError::DeclarationNotRecognized(_) => {}
@@ -312,7 +312,7 @@ impl SlynxContext {
                         ty: SlynxErrorType::Type,
                         message: format!(
                             "IR internal error: Type '{:?}' is not recognized by the IR",
-                            hir.symbols_module.get_name(name)
+                            ir.string_pool().get_name(name)
                         ),
                         file: self.file_name(),
                         source_code: "Not Required. HIR -> IR error".into(),

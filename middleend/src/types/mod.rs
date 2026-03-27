@@ -16,8 +16,11 @@ pub const BUILTIN_TYPES: &[IRType] = &[
     IRType::U32,
     IRType::I64,
     IRType::U64,
+    IRType::ISIZE,
+    IRType::USIZE,
     IRType::F32,
     IRType::F64,
+    IRType::STR,
     IRType::BOOL,
     IRType::VOID,
     IRType::GenericComponent,
@@ -90,6 +93,16 @@ impl IRTypes {
     ///Returns the void type
     pub fn void_type(&self) -> IRTypeId {
         IRTypeId(self.types.iter().position(|v| *v == IRType::VOID).unwrap())
+    }
+
+    ///Returns the str type
+    pub fn str_type(&self) -> IRTypeId {
+        IRTypeId(self.types.iter().position(|v| *v == IRType::STR).unwrap())
+    }
+
+    ///Returns the usize type
+    pub fn usize_type(&self) -> IRTypeId {
+        IRTypeId(self.types.iter().position(|v| *v == IRType::USIZE).unwrap())
     }
 
     ///Returns the generic component type

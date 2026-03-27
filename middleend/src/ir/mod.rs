@@ -33,17 +33,13 @@ pub struct SlynxIR {
     values: Vec<Value>,
     slots: Vec<Slot>,
     types: IRTypes,
-}
-
-impl Default for SlynxIR {
-    fn default() -> Self {
-        Self::new()
-    }
+    ///Pool of interned strings, accessed via StringHandle indices
+    strings: SymbolsModule,
 }
 
 impl SlynxIR {
     ///Creates a new empty IR
-    pub fn new() -> Self {
+    pub fn new(symbols: SymbolsModule) -> Self {
         Self {
             components: Vec::new(),
             contexts: Vec::new(),
@@ -53,17 +49,18 @@ impl SlynxIR {
             values: Vec::new(),
             slots: Vec::new(),
             types: IRTypes::new(),
+            strings: symbols,
         }
+    }
+
+    ///Returns a reference to the string pool
+    pub fn string_pool(&self) -> &SymbolsModule {
+        &self.strings
     }
 
     ///Generates all the code on the IR, with types, functions, lowerings, etc, based on the provided `hir`. The `tys` is expected to be the types module used by the `hir` during all frontend process, as well as
     ///the `symbols`, to be the symbols module used by the same `hir` during all the frontend process
-    pub fn generate(
-        &mut self,
-        hir: Vec<HirDeclaration>,
-        tys: &TypesModule,
-        _symbols: &SymbolsModule,
-    ) -> Result<(), IRError> {
+    pub fn generate(&mut self, hir: Vec<HirDeclaration>, tys: &TypesModule) -> Result<(), IRError> {
         let mut temp = TempIRData::new();
         //hoist of the objects
         for declaration in &hir {

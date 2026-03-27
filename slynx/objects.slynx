@@ -1,19 +1,10 @@
 component Counter {
-    pub prop count: int
-    Button {
-        on_click: _ -> count
-    }
+    pub prop count: int;
 }
 
-component Pessoa{
-    prop name: str;
-    prop age: int;
-    Text {
-        text: name + "tem" + age + "anos"
-    }
-    Counter {
-        count: age
-    }
+object Pessoa{
+    name: str,
+    age: int,
 }
 
 component Sla {}
@@ -25,5 +16,5 @@ func main(): Component {
     pessoa.name = "Jorge";
     pessoa.age = 255;
     pessoa = Pessoa(name: "jorge", age:pessoa.age + 3);
-    Sla{}
+    Counter {}
 }

@@ -67,8 +67,16 @@ impl SlynxIR {
         temp: &mut TempIRData,
     ) -> Result<IRPointer<Value, 1>, IRError> {
         let value = match &expr.kind {
-            HirExpressionKind::StringLiteral(_v) => {
-                unimplemented!("String literal not implemented");
+            HirExpressionKind::StringLiteral(v) => {
+                let handle_idx = self.strings.intern(v);
+                let operand = Operand::String(handle_idx);
+                let operand_ptr = self.insert_operands(&[operand]);
+                let value = self.insert_value(Value::Raw(operand_ptr));
+                let instruction = self.insert_instruction(
+                    temp.current_label(),
+                    Instruction::raw(value, self.types.str_type()),
+                );
+                Value::Instruction(instruction)
             }
             HirExpressionKind::Bool(_)
             | HirExpressionKind::Float(_)
@@ -119,16 +127,12 @@ impl SlynxIR {
                         .iter()
                         .map(|v| self.get_value_for(v, temp))
                         .collect::<Result<Vec<_>, _>>()?;
-                    #[cfg(debug_assertions)]
-                    {
-                        for (index, field) in fields.iter().enumerate() {
-                            if index == 0 {
-                                continue;
-                            }
-                            assert!(field.ptr() - fields[index - 1].ptr() == 1);
-                        }
-                    }
-                    IRPointer::new(fields[0].ptr(), fields.len())
+                    self.insert_values(
+                        &fields
+                            .iter()
+                            .map(|v| self.get_value(v.clone()))
+                            .collect::<Vec<_>>(),
+                    )
                 };
                 Value::StructLiteral(ty, values)
             }

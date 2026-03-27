@@ -25,6 +25,7 @@ impl SlynxIR {
             ty if ty == tymod.float_id() => self.types.float_type(),
             ty if ty == tymod.bool_id() => self.types.bool_type(),
             ty if ty == tymod.void_id() => self.types.void_type(),
+            ty if ty == tymod.str_id() => self.types.str_type(),
             ty if ty == tymod.generic_component_id() => self.types.generic_component_type(),
             ty => temp.get_type(ty)?,
         })
@@ -39,7 +40,7 @@ impl SlynxIR {
             Operand::Bool(_) => self.types.bool_type(),
             Operand::Float(_) => self.types.float_type(),
             Operand::Int(_) => self.types.int_type(),
-            Operand::String(_) => unimplemented!("Not implemented type for strings on operands"),
+            Operand::String(_) => self.types.str_type(),
         }
     }
 

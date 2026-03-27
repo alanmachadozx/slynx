@@ -1,3 +1,5 @@
+use common::SymbolPointer;
+
 use crate::{IRTypeId, Label, ir::model::Context};
 
 use super::IRPointer;
@@ -13,7 +15,7 @@ pub struct Slot {
 #[derive(Debug, Clone)]
 ///A value inside the IR. Can be a function arg, a label arg or the result of a instruction
 pub enum Value {
-    StructLiteral(IRTypeId, IRPointer<Value, 1>),
+    StructLiteral(IRTypeId, IRPointer<Value>),
     Raw(IRPointer<Operand, 1>),
     Instruction(IRPointer<Instruction, 1>),
     Slot(IRPointer<Slot, 1>),
@@ -26,7 +28,8 @@ pub enum Operand {
     Bool(bool),
     Int(i64),
     Float(f64),
-    String(String),
+    ///Index into the SlynxIR string pool's entries. The backend resolves this to a StrHandle {offset, len}.
+    String(SymbolPointer),
 }
 
 #[derive(Debug, Clone)]
