@@ -395,7 +395,8 @@ mod tests {
             else {
                 continue;
             };
-            if name != "main" {
+
+            if hir.symbols_module.get_name(*name) != "main" {
                 continue;
             }
 

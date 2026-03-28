@@ -10,7 +10,7 @@ use frontend::checker::{TypeChecker, error::TypeError};
 use frontend::hir::{SlynxHir, error::HIRError};
 use frontend::lexer::{Lexer, error::LexerError};
 use frontend::parser::{Parser, error::ParseError};
-use middleend::IntermediateRepr;
+use middleend::{IRError, SlynxIR};
 
 #[derive(Debug)]
 ///The type of the error that was generated
@@ -49,12 +49,12 @@ impl std::error::Error for SlynxError {}
 #[derive(Debug)]
 pub struct CompilationOutput {
     output_path: PathBuf,
-    ir: IntermediateRepr,
+    ir: SlynxIR,
 }
 
 impl CompilationOutput {
     ///Creates a new compilation output with the provided `ir`. Writes the `ir` in its textual format on the provided `entry_point` with extension of `sir`
-    fn new(entry_point: &Path, ir: IntermediateRepr) -> Self {
+    fn new(entry_point: &Path, ir: SlynxIR) -> Self {
         Self {
             output_path: entry_point.with_extension("sir"),
             ir,
@@ -62,7 +62,7 @@ impl CompilationOutput {
     }
 
     ///Consumes and retrieves the IR of this compilation output
-    pub fn ir(self) -> IntermediateRepr {
+    pub fn ir(self) -> SlynxIR {
         self.ir
     }
 
@@ -275,7 +275,7 @@ impl SlynxContext {
                 None => return Err(e),
             }
         }
-        let module = match TypeChecker::check(&mut hir) {
+        let types_module = match TypeChecker::check(&mut hir) {
             Err(e) => match e.downcast_ref::<TypeError>() {
                 Some(err) => {
                     let (line, column, src) = self.get_line_info(&self.entry_point, err.span.start);
@@ -293,15 +293,42 @@ impl SlynxContext {
             },
             Ok(module) => module,
         };
-        let mut ir = IntermediateRepr::new();
+        let mut ir = SlynxIR::new(hir.symbols_module);
 
-        ir.generate(hir.declarations, module);
-
+        if let Err(e) = ir.generate(hir.declarations, &types_module) {
+            match e {
+                IRError::UnrecognizedVariable(_) => {}
+                IRError::DeclarationNotRecognized(_) => {}
+                IRError::IRTypeNotRecognized(e) => {
+                    let Some(name) = types_module.get_type_name(&e).cloned() else {
+                        unreachable!(
+                            "Type {e:?} isnt recognized by the types module? Something wrong ain't right"
+                        )
+                    };
+                    let (line, column, _) = self.get_line_info(&self.entry_point, 0);
+                    return Err(SlynxError {
+                        line,
+                        column_start: column,
+                        ty: SlynxErrorType::Type,
+                        message: format!(
+                            "IR internal error: Type '{:?}' is not recognized by the IR",
+                            ir.string_pool().get_name(name)
+                        ),
+                        file: self.file_name(),
+                        source_code: "Not Required. HIR -> IR error".into(),
+                    }
+                    .into());
+                }
+            }
+            return Err(color_eyre::eyre::eyre!(format!(
+                "IR Generation Error: {:?}",
+                e
+            )));
+        };
         let output = CompilationOutput::new(self.entry_point.as_ref(), ir);
         Ok(output)
     }
 
-    ///Compile the code on this context and writes it on the same path
     pub fn start_compilation(self) -> Result<()> {
         let output = self.compile()?;
         output.write()?;

@@ -39,12 +39,11 @@ The same idea is used for `isize`, if a backend has no native `isize` representa
 Text and byte-oriented primitive types:
 
 * `str`: immutable UTF-8 string handle type
-* `bytes`: immutable byte-sequence handle type
 
 Language-level aliases currently used in examples:
 
-* `int` maps to an integer primitive selected by the frontend/lowering stage which is idealized to be `i32`
-* `float` maps to a floating primitive selected by the frontend/lowering stage which is idealized to be `f32`
+* `int` maps to an integer primitive selected by the frontend/lowering stage which is idealized to be i32
+* `float` maps to a floating primitive selected by the frontend/lowering stage which is idealized to be f32
 
 ### Structs
 The IR has implementation of operations primitives. The syntax for the deffinition of a struct can be the following:
@@ -334,6 +333,13 @@ The `@emit p0, %count` on the function, tells that `p0` should execute its `%cou
 
 ### Instructions
 
+#### Variable Operations
+
+* allocate: Allocates a variable with a given type. Follows `allocate ty`. This does not mean that the value must be allocated by the backend, just that this is what in the language is the so called 'variable'. This returns a handle 
+* write: Writes on the provided value. Follow `write ty, handle, value`, the type of the `handle` must be the same as the `ty` and `value`. The handle can be casted, and so written in a different manner
+* read: Reads the provided value as the provided `ty`. Follows `read ty, handle`..
+* reinterpret: Creates a new slot based on the provided one, reinterpreted with the given ty. Follows `reinterpret, ty, slot`. 
+
 #### Termination Operations
 
 * br: Unconditional branch. Follows `br $label(arg0, arg1, ...)` and transfers control to `$label`, binding arguments to its `lpN` parameters.
@@ -389,6 +395,6 @@ Saturing addition:
 * cmplt, compares the first value to the second one, and returns `true` if the first is less than the second one, and `false` otherwise
 * cmplte, compares the first value to the second one, and returns `true` if the first is less than or equal to the second one, and `false` otherwise
 * cmpne, compares the first value to the second one, and returns `true` if they're not equal, and `false` otherwise
-
+* negate, negates the provided value. If it's true, returns false, otherwise, returns true
 #### Idealized For The Future
 These operations are idealized to be implemented on the future and for the V1 are not being implemented. Note that since these are only IDEALIZED, they might and probably WILL change

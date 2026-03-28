@@ -1,3 +1,7 @@
+component Counter {
+    pub prop count: int;
+}
+
 object Pessoa{
     name: str,
     age: int,
@@ -12,5 +16,5 @@ func main(): Component {
     pessoa.name = "Jorge";
     pessoa.age = 255;
     pessoa = Pessoa(name: "jorge", age:pessoa.age + 3);
-    Sla{}
+    Counter {}
 }
