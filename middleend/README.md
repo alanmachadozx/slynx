@@ -1,9 +1,24 @@
 # Slynx IR
-This IR is is intended to be used by underlying compilers, the language compiles down to JS only as a prove of concept, to show that it's possible to use this IR and compile to any target. Note that for so, this IR
-tells what the backend compiling it should do instead of how, even though the language is a bit opinionated about the 'how'(mainly due to DOD).
-First of all the IR follows SSA and is extremely typed.
-The IR has got the concept of 'contexts' that are anything able to be run, this means a struct isn't a context, because it by itself cannot execute code, but a method or a function are, as well as components that can have code
-to be run, such as the reactivity model.
+
+This document describes the intended textual form and semantics of the Slynx IR.
+It should be read as a design/specification reference for the middleend and for
+future downstream compilers.
+
+## Status of This Document
+
+This file mixes current behavior and planned IR design.
+
+What is true today:
+
+- the current `main` branch lowers source into `IntermediateRepr`
+- the root crate currently writes `.sir` output using Rust debug-style serialization
+- not every construct documented below is emitted by the current codebase yet
+- when this document and the code disagree about present behavior, treat the code as the source of truth and this file as the target shape the project is moving toward
+
+The long-term goal is an SSA-oriented, strongly typed IR that tells a downstream compiler what to do without forcing a single runtime strategy.
+
+For the stage that extracts reactive dependencies before linearization/IR
+lowering, see [docs/reactive-graph-generation.md](docs/reactive-graph-generation.md).
 
 ## Syntax
 
@@ -19,7 +34,7 @@ Primitive scalar types used by this IR:
 
 `usize` means target-native pointer-sized unsigned integer when the backend supports it.
 If a backend has no native `usize` representation, it must treat `usize` as `u64`.
-The same idea is used for `isize`, if the backend has no isize representation, then it's represented as a `i64`
+The same idea is used for `isize`, if a backend has no native `isize` representation, then it's represented as a `i64`.
 
 Text and byte-oriented primitive types:
 

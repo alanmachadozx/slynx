@@ -1,238 +1,223 @@
-# Project Governance Structure
+﻿# Slynx Governance
 
-This document describes the organizational structure and governance model of the project. Its purpose is to establish clear responsibilities, ensure an organized decision-making process, and maintain the continuity of the language development.
+This document defines the governance structure of the Slynx project.
 
-The project hierarchy is composed of the following levels:
+Its goals are to:
 
-1. Lead Maintainer  
-2. Co-maintainers  
-3. Assistants  
-4. Contributors  
-5. Community  
+- clarify responsibilities
+- make decision-making easier to follow
+- define how key roles are filled and maintained
+- preserve continuity as the language and community grow
 
----
+## Project Hierarchy
 
-# 1. Lead Maintainer
+The project is organized in the following order:
 
-The lead maintainer of the project is **[Cainã Melo](https://github.com/cykna)**.
+1. Lead Maintainer
+2. Co-maintainers
+3. Assistants
+4. Contributors
+5. Community
 
-He holds the highest level of responsibility within the project structure and acts as the primary guide for the direction of the project.
+## Current Role Summary
 
-His responsibilities include:
+| Role | Purpose |
+| --- | --- |
+| Lead Maintainer | Defines the overall technical and strategic direction of the project |
+| Co-maintainers | Share decision-making, maintenance, and project leadership responsibilities |
+| Assistants | Support development, organization, and technical discussion under co-maintainer guidance |
+| Contributors | People with accepted contributions but no formal administrative role |
+| Community | People who use, follow, discuss, or help grow the language |
 
-- Defining the technical and strategic direction of the language
-- Having greater weight in voting and major decisions
-- Coordinating the co-maintainers
-- Ensuring consistency in the evolution of the project
-- Guiding the development and the community
+## 1. Lead Maintainer
 
-Although important decisions are discussed collectively, the lead maintainer has stronger influence in final deliberations.
+The lead maintainer is **[Cainã Melo](https://github.com/cykna)**.
 
----
+This role has the highest level of responsibility in the project and acts as the main guide for the language's direction.
 
-# 2. Co-maintainers
+### Responsibilities
 
-Co-maintainers are highly trusted members with significant responsibility within the project. They play an active role in decision-making and in the development of the language.
+- Define the technical and strategic direction of the language
+- Have greater weight in major decisions and votes
+- Coordinate co-maintainers
+- Preserve consistency in the evolution of the project
+- Guide both development and community direction
 
-## Current Co-maintainers
+Important decisions are still expected to be discussed collectively, but the lead maintainer has stronger influence in final deliberation.
+
+## 2. Co-maintainers
+
+Co-maintainers are highly trusted members with significant responsibility in both technical and organizational decisions.
+
+### Current Co-maintainers
 
 - [André Alves](https://github.com/andre-f-alves)
 - [Fabrício Santos](https://github.com/Fabricio-Antonio)
-- [Sávio](https://github.com/SavioCodes)  
+- [Sávio](https://github.com/SavioCodes)
 
-The project has a **maximum limit of 5 co-maintainers**, with **2 seats currently available**.
+The project currently allows a **maximum of 5 co-maintainers**, which means **2 seats are available** under the roster documented here.
 
-## Responsibilities
+### Responsibilities
 
-Co-maintainers are responsible for critical and strategic activities within the project, including:
+- Participate in important project decisions
+- Vote on relevant proposals
+- Develop and maintain the codebase
+- Organize project tasks and priorities
+- Moderate the community
+- Write and maintain documentation
+- Participate in governance decisions
 
-- Participating in important project decisions
-- Voting on relevant proposals
-- Developing and maintaining the codebase
-- Organizing project tasks and priorities
-- Moderating the community
-- Writing and maintaining documentation
-- Participating in project governance
+Co-maintainers may also be expected to handle urgent or strategically important work such as:
 
-They are also responsible for executing critical, urgent, or highly relevant tasks, which may include:
-
-- development of new features
+- new features
 - bug fixes
 - project organization
-- server moderation
-- definition of technical guidelines
+- moderation tasks
+- technical guideline definition
 
-## Commitments
+### Commitments
 
 Co-maintainers must:
 
-- Participate in project meetings
-- Maintain frequent communication with other co-maintainers and assistants
-- Remain actively involved in the project
-- Justify any absence
+- participate in project meetings
+- maintain frequent communication with co-maintainers and assistants
+- remain actively involved in the project
+- justify any relevant absence
 
-Failure to fulfill responsibilities or prolonged inactivity may result in **removal from the role**.
+Failure to fulfill responsibilities or prolonged inactivity may result in removal from the role.
 
----
+## 3. Absence, Leave, and Resignation of Co-maintainers
 
-# 3. Absence or Leave of Co-maintainers
+Any absence or leave must be communicated and justified.
 
-Any absence or leave must be **communicated and justified**.
+Examples of valid reasons include:
 
-Valid reasons may include:
+- health issues
+- bereavement
+- professional commitments
+- academic commitments
+- relevant personal reasons
 
-- health issues  
-- bereavement  
-- professional commitments  
-- academic commitments  
-- relevant personal reasons  
-
-## Leave shorter than 3 weeks
+### Leave Shorter Than 3 Weeks
 
 Project activities continue normally without replacement.
 
-## Leave longer than 3 weeks
+### Leave Longer Than 3 Weeks
 
-The co-maintainers will hold a meeting to **temporarily promote an assistant** to act in the role until the absent co-maintainer returns.
+The co-maintainers hold a meeting to **temporarily promote an assistant** until the absent co-maintainer returns.
 
-## Resignation
+### Permanent Resignation
 
-If a co-maintainer resigns permanently, an assistant will be promoted to permanently fill the vacant seat.
+If a co-maintainer resigns permanently, an assistant is promoted to permanently fill the vacant seat.
 
----
+## 4. Assistants
 
-# 4. Assistants
+Assistants support the maintenance and evolution of the project under the guidance of the co-maintainers.
 
-Assistants are members who support the maintenance and evolution of the project under the guidance of the co-maintainers.
-
-## Current Assistants
+### Current Assistants
 
 - [Alan Machado](https://github.com/alanmachadozx)
 - [Gabriel Alves](https://github.com/alwisgabriel)
 - [Luis Otávio](https://github.com/LuisOtavio13)
 
-They support the development process and contribute to operational tasks.
+The project currently allows a **maximum of 7 assistants**.
 
-## Responsibilities
+### Responsibilities
 
-Assistant responsibilities include:
+- Assist with the development of the language
+- Support organizational tasks
+- Participate in technical discussions
+- Contribute improvements to the project
+- Help with community interaction
 
-- Assisting in the development of the language
-- Supporting organizational tasks
-- Participating in technical discussions
-- Contributing improvements to the project
-- Assisting with community interaction
+Assistants operate under the supervision of the co-maintainers and are observed for activity, reliability, and commitment.
 
-Assistants operate under the supervision of the co-maintainers and are observed regarding their activity and commitment.
+### Commitments
 
-## Commitments
+Assistants must:
 
-Like co-maintainers, assistants must:
+- maintain regular activity
+- maintain communication with the team
+- participate in relevant discussions
 
-- Maintain regular activity
-- Maintain communication with the team
-- Participate in relevant discussions
+Assistants are subject to the same absence and leave rules described for co-maintainers.
 
-They are also subject to **the same absence and leave rules**.
+## 5. Requirements for Becoming a Co-maintainer or Assistant
 
-## Member Limit
+A member must meet the following criteria before taking either role:
 
-The maximum number of assistants is **7 members**.
+### Commitment and Responsibility
 
----
+They must demonstrate reliability and commitment to the project, including consistent communication.
 
-# 5. Requirements for Becoming a Co-maintainer or Assistant
+### Availability
 
-To assume either of these roles, a member must meet the following criteria:
+They must have enough time to contribute actively and consistently.
 
-## Commitment and Responsibility
+### Technical Capability
 
-The member must demonstrate commitment to the project and reliability in their activities, avoiding disappearing without communication.
+They must have technical knowledge compatible with the needs of the language and the current project direction.
 
-## Availability
+## 6. Appointment and Promotion Process
 
-It is essential that the person has enough time to contribute actively and consistently.
+### Initial Co-maintainer Appointment
 
-## Technical Capability
+The initial co-maintainers are directly appointed by the lead maintainer.
 
-The member must possess relevant technical knowledge compatible with the needs of the language development.
+### Promotion to Co-maintainer
 
----
+The current process is:
 
-# 6. Election Process
-
-## Initial Appointment
-
-The initial co-maintainers are **directly appointed by the lead maintainer (Cainã)**.
-
-## Promotion to Co-maintainer
-
-The promotion process works as follows:
-
-1. An assistant stands out through contributions, discussions, or activity in the community.
+1. An assistant stands out through contributions, discussions, or consistent activity.
 2. The co-maintainers hold an internal vote.
 3. If the vote is favorable, the member is invited to a meeting.
-4. During the meeting, a formal invitation is made.
+4. During that meeting, a formal invitation is made.
 5. If accepted, the member becomes a co-maintainer.
 
-The total number of co-maintainers **must not exceed 5 members**.
+The total number of co-maintainers must not exceed 5 members.
 
-## Admission of Assistants
+### Admission of Assistants
 
-The admission of assistants follows a similar process:
+The current process is:
 
 1. A community member demonstrates relevant activity in the project or community.
 2. The co-maintainers discuss and vote on the admission.
 3. If approved, the member is invited to join the assistants group.
 
-The maximum number of assistants is **7 members**.
+The total number of assistants must not exceed 7 members.
 
----
+## 7. Contributors
 
-# 7. Contributors
+Contributors are people who have contributed to the project but do not hold administrative responsibilities within the organization.
 
-Contributors are individuals who have contributed to the project but do not hold administrative responsibilities within the organization.
+They do not have formal obligations to the Slynx organization.
 
-They do not have formal obligations to the Slynx language organization.
+### Requirement to Become a Contributor
 
-## Requirement to Become a Contributor
+A member becomes a contributor after having **at least one accepted pull request** in the official Slynx repository.
 
-To obtain contributor status, a member must have **at least one accepted Pull Request** in the official repository of the language.
+Relevant contribution types include:
 
-Contributions may include:
+- code
+- bug fixes
+- documentation
+- improvements
+- issue participation
+- technical discussion
 
-- code  
-- bug fixes  
-- improvements  
-- documentation  
-- participation in issues  
-- technical discussions  
-
----
-
-# 8. Community
+## 8. Community
 
 The community includes anyone who:
 
-- participates in the language's Discord server  
-- uses the language  
-- consumes or creates content about the language  
-- follows or participates in discussions  
+- participates in the project's Discord server
+- uses the language
+- follows or joins project discussions
+- consumes or creates content related to the language
 
-The community represents the foundation of the project's ecosystem and plays a crucial role in its growth.
+The community is the foundation of the Slynx ecosystem and plays a key role in the project's growth.
 
----
+## Maintenance of This Document
 
-# Hierarchy Summary
+This file should be kept aligned with the current governance model and current role roster.
 
-The responsibility structure of the project follows this order:
-
-1. **Lead Maintainer**  
-2. **Co-maintainers**  
-3. **Assistants**  
-4. **Contributors**  
-5. **Community**
-
-Each level represents different degrees of responsibility, participation, and influence in project decisions.
-
-(Rules may be subject to future changes)
+If governance rules change, this document should be updated accordingly.
