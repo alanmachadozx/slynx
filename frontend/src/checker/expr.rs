@@ -184,6 +184,7 @@ impl TypeChecker {
         Ok(())
     }
 
+    ///Tries to resolve the types of the provided `statments`. If not possible, it keeps the type as infer and on the next phase it will be replaced with the default fallback
     pub(super) fn resolve_statments(
         &mut self,
         statments: &mut Vec<HirStatement>,
@@ -360,6 +361,7 @@ impl TypeChecker {
         Ok(expr.ty)
     }
 
+    ///Sets the default type on the provided `expr`
     pub(super) fn default_expr(&mut self, expr: &mut HirExpression) -> Result<()> {
         match expr.kind {
             HirExpressionKind::If {
