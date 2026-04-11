@@ -1,3 +1,21 @@
+//! The core type-checking engine for the Slynx compiler.
+//!
+//! This module implements a two-phase type inference and validation system:
+//!
+//! 1. **Resolution Phase**: Iterates through the HIR to resolve `Infer` types
+//!    into concrete types by analyzing expressions, function calls, and
+//!    component properties. Functions involved in this phase are typically
+//!    named `resolve_*`.
+//!
+//! 2. **Default/Fallback Phase**: After the initial pass, any remaining
+//!    ambiguous types that couldn't be strictly inferred are assigned their
+//!    language-default types. Functions for this phase are named `set_default`
+//!    or `default_*`.
+//!
+//! The `TypeChecker` mutates the `TypesModule` and the `SlynxHir` in-place,
+//! ensuring that subsequent compilation stages (like Codegen) have access to
+//! fully concrete type information.
+
 mod decl;
 pub mod error;
 mod expr;

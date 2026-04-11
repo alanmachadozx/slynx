@@ -1,3 +1,9 @@
+//! Type-checking logic for statements in the Slynx compiler.
+//!
+//! This module provides the implementation for type-checking statements, including
+//! variable declarations, assignments, and expressions. It uses the `TypeChecker`
+//! context to resolve types and unify them with expected types.
+
 use color_eyre::eyre::Result;
 
 use crate::checker::TypeChecker;
