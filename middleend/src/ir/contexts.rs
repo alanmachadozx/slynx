@@ -73,10 +73,10 @@ impl SlynxIR {
                     .map(|e| self.get_value_for(e, temp))
                     .collect::<Result<Vec<_>, _>>()?;
                 let mut element_types = Vec::with_capacity(values_ptrs.len());
-                    for ptr in &values_ptrs {
-                        let ty = self.get_type_of_value(ptr.clone(), temp);
-                        element_types.push(ty);
-                    }
+                for ptr in &values_ptrs {
+                    let ty = self.get_type_of_value(ptr.clone(), temp);
+                    element_types.push(ty);
+                }
                 let values = values_ptrs
                     .iter()
                     .map(|v| self.get_value(v.clone()))

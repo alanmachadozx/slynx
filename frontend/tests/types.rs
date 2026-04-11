@@ -6,9 +6,9 @@ fn test_create_tuple_type() {
     let int_id = hir.types_module.int_id();
     let float_id = hir.types_module.float_id();
 
-    let tuple_id = hir
-        .types_module
-        .insert_unnamed_type(HirType::Tuple { fields: vec![int_id, float_id] });
+    let tuple_id = hir.types_module.insert_unnamed_type(HirType::Tuple {
+        fields: vec![int_id, float_id],
+    });
 
     match hir.types_module.get_type(&tuple_id) {
         HirType::Tuple { fields } => {
@@ -43,9 +43,9 @@ fn test_tuple_fields_are_independent_type_ids() {
     let str_id = hir.types_module.str_id();
     let bool_id = hir.types_module.bool_id();
 
-    let tuple_id = hir
-        .types_module
-        .insert_unnamed_type(HirType::Tuple { fields: vec![int_id, str_id, bool_id] });
+    let tuple_id = hir.types_module.insert_unnamed_type(HirType::Tuple {
+        fields: vec![int_id, str_id, bool_id],
+    });
 
     match hir.types_module.get_type(&tuple_id) {
         HirType::Tuple { fields } => {
@@ -67,13 +67,16 @@ fn test_two_tuple_types_are_independent() {
     let int_id = hir.types_module.int_id();
     let float_id = hir.types_module.float_id();
 
-    let tuple_a = hir
-        .types_module
-        .insert_unnamed_type(HirType::Tuple { fields: vec![int_id] });
+    let tuple_a = hir.types_module.insert_unnamed_type(HirType::Tuple {
+        fields: vec![int_id],
+    });
 
-    let tuple_b = hir
-        .types_module
-        .insert_unnamed_type(HirType::Tuple { fields: vec![float_id] });
+    let tuple_b = hir.types_module.insert_unnamed_type(HirType::Tuple {
+        fields: vec![float_id],
+    });
 
-    assert_ne!(tuple_a, tuple_b, "two separately inserted tuples should have distinct IDs");
+    assert_ne!(
+        tuple_a, tuple_b,
+        "two separately inserted tuples should have distinct IDs"
+    );
 }

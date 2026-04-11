@@ -37,12 +37,11 @@ impl IRTuple {
     }
 
     /// Returns `true` if the tuple has no elements.
-     pub fn is_empty(&self) -> bool {
+    pub fn is_empty(&self) -> bool {
         self.elements.is_empty()
     }
 
     /// Returns the number of elements in the tuple.
-
     pub fn len(&self) -> usize {
         self.elements.len()
     }

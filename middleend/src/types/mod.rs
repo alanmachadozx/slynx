@@ -179,5 +179,4 @@ impl IRTypes {
         self.types.push(IRType::Tuple(IRTupleId(tout)));
         IRTypeId(out)
     }
-
 }
