@@ -131,30 +131,43 @@ impl Parser {
             expr,
         })
     }
+    ///Parses a tuple expression, which follows the rule (expr, expr, expr) or ()
     pub fn parse_tuple(&mut self) -> Result<ASTExpression> {
         let start = self.expect(&TokenKind::LParen)?;
-        let mut itens = Vec::new();
-        let mut encontrei = false;
-        while self.peek()?.kind != TokenKind::RParen {
-            let value = self.parse_expression()?;
-            itens.push(value);
-            if self.peek()?.kind == TokenKind::Comma {
-                encontrei = true;
-                self.eat()?;
-            }
-        }
-        let end = self.expect(&TokenKind::RParen)?;
-        if !encontrei && itens.len() == 1 {
-            Ok(itens.remove(0))
-        } else {
-            Ok(ASTExpression {
-                kind: ASTExpressionKind::Tuple(itens),
+        if self.peek()?.kind == TokenKind::RParen {
+            let end = self.eat()?;
+            return Ok(ASTExpression {
+                kind: ASTExpressionKind::Tuple(vec![]),
                 span: Span {
                     start: start.span.start,
                     end: end.span.end,
                 },
-            })
+            });
         }
+
+        let first = self.parse_expression()?;
+        if self.peek()?.kind == TokenKind::RParen {
+            let _ = self.eat()?;
+            return Ok(first);
+        }
+        self.expect(&TokenKind::Comma)?;
+        let mut itens = vec![first];
+
+        while self.peek()?.kind != TokenKind::RParen {
+            itens.push(self.parse_expression()?);
+            if self.peek()?.kind == TokenKind::Comma {
+                self.eat()?;
+            }
+        }
+
+        let end = self.expect(&TokenKind::RParen)?;
+        Ok(ASTExpression {
+            kind: ASTExpressionKind::Tuple(itens),
+            span: Span {
+                start: start.span.start,
+                end: end.span.end,
+            },
+        })
     }
     ///Parses an object expression, which follows the rule Object(field: expr, field: value)
     pub fn parse_object_expression(&mut self) -> Result<ASTExpression> {
