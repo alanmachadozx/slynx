@@ -326,7 +326,7 @@ impl TypeChecker {
             return Ok(ty);
         }
         let ty = self.types_module.get_type(&ty);
-        if self.reccursive_ty(rf, ty) {
+        if self.recursive_ty(rf, ty) {
             return Err(TypeError {
                 kind: TypeErrorKind::CiclicType { ty: ty.clone() },
                 span: span.clone(),
@@ -342,20 +342,20 @@ impl TypeChecker {
     }
 
     /// Checks if the provided `ty` is recursive
-    fn reccursive_ty(&self, ty_ref: TypeId, ty: &HirType) -> bool {
+    fn recursive_ty(&self, ty_ref: TypeId, ty: &HirType) -> bool {
         match ty {
             HirType::Reference { rf, .. } => {
                 if ty_ref == *rf {
                     true
                 } else if let Some(resolved) = self.types.get(rf) {
-                    self.reccursive_ty(ty_ref, resolved)
+                    self.recursive_ty(ty_ref, resolved)
                 } else {
                     false
                 }
             }
             HirType::Component { props } => props
                 .iter()
-                .any(|prop| self.reccursive_ty(ty_ref, self.types_module.get_type(&prop.2))),
+                .any(|prop| self.recursive_ty(ty_ref, self.types_module.get_type(&prop.2))),
             _ => false,
         }
     }
