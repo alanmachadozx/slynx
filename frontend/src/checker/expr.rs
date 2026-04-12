@@ -254,7 +254,9 @@ impl TypeChecker {
         span: &Span,
     ) -> Result<()> {
         let refty = match self.types_module.get_type(&lhs.ty) {
-            HirType::Field(FieldMethod::Type(_, _)) => lhs.ty,
+            HirType::Field(FieldMethod::Type(_, _)) | HirType::Field(FieldMethod::Tuple(_, _)) => {
+                lhs.ty
+            }
             HirType::Field(FieldMethod::Variable(..)) => {
                 let HirExpressionKind::FieldAccess {
                     ref mut field_index,
@@ -309,28 +311,6 @@ impl TypeChecker {
                 HirStatementKind::Expression { expr } => {
                     expr.ty = self.get_type_of_expr(expr)?;
                 }
-                HirStatementKind::Assign { lhs, value } => {
-                    let refty = match self.types_module.get_type(&lhs.ty) {
-                        HirType::Field(FieldMethod::Type(_, _))
-                        | HirType::Field(FieldMethod::Tuple(_, _)) => lhs.ty,
-                        HirType::Field(FieldMethod::Variable(..)) => {
-                            let HirExpressionKind::FieldAccess {
-                                ref mut field_index,
-                                ..
-                            } = lhs.kind
-                            else {
-                                unreachable!();
-                            };
-                            let _ = self.resolve_field_access_type(
-                                &mut lhs.ty,
-                                field_index,
-                                &lhs.span,
-                            )?;
-                            lhs.ty
-                        }
-                        HirType::VarReference(_) => lhs.ty,
-                        _ => unreachable!(),
-                    };
 
                 HirStatementKind::Assign { lhs, value } => {
                     self.resolve_statement_assign(lhs, value, span)?
