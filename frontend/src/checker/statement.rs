@@ -1,3 +1,9 @@
+//! Type-checking logic for statements in the Slynx compiler.
+//!
+//! This module provides the implementation for type-checking statements, including
+//! variable declarations, assignments, and expressions. It uses the `TypeChecker`
+//! context to resolve types and unify them with expected types.
+
 use color_eyre::eyre::Result;
 
 use crate::checker::TypeChecker;
@@ -17,7 +23,9 @@ impl TypeChecker {
             HirStatementKind::Variable { name, value } => {
                 // Ensure the initializer expression is fully typed and propagate it to the variable.
                 self.default_expr(value)?;
+
                 let ty = self.get_type_of_expr(value)?;
+
                 value.ty = ty;
                 self.types_module.insert_variable(*name, ty);
             }
@@ -26,17 +34,22 @@ impl TypeChecker {
                 let ty = self.resolve(&lhs.ty, &lhs.span)?;
                 value.ty = self.unify(&ty, &value.ty, &value.span)?;
             }
+
             HirStatementKind::Expression { expr } => self.default_expr(expr)?,
+
             HirStatementKind::Return { expr } => {
                 self.default_expr(expr)?;
                 let unify = self.unify(&expr.ty, expected, &statement.span)?;
+
                 expr.ty = unify;
             }
 
             HirStatementKind::While { condition, body } => {
                 condition.ty = self.get_type_of_expr(condition)?;
                 let bool_id = self.types_module.bool_id();
+
                 condition.ty = self.unify(&condition.ty, &bool_id, &condition.span)?;
+
                 for stmt in body {
                     self.default_statement(stmt, expected)?;
                 }

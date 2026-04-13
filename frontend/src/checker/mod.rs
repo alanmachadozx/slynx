@@ -1,3 +1,21 @@
+//! The core type-checking engine for the Slynx compiler.
+//!
+//! This module implements a two-phase type inference and validation system:
+//!
+//! 1. **Resolution Phase**: Iterates through the HIR to resolve `Infer` types
+//!    into concrete types by analyzing expressions, function calls, and
+//!    component properties. Functions involved in this phase are typically
+//!    named `resolve_*`.
+//!
+//! 2. **Default/Fallback Phase**: After the initial pass, any remaining
+//!    ambiguous types that couldn't be strictly inferred are assigned their
+//!    language-default types. Functions for this phase are named `set_default`
+//!    or `default_*`.
+//!
+//! The `TypeChecker` mutates the `TypesModule` and the `SlynxHir` in-place,
+//! ensuring that subsequent compilation stages (like Codegen) have access to
+//! fully concrete type information.
+
 mod decl;
 pub mod error;
 mod expr;
@@ -342,7 +360,7 @@ impl TypeChecker {
             return Ok(ty);
         }
         let ty = self.types_module.get_type(&ty);
-        if self.reccursive_ty(rf, ty) {
+        if self.recursive_ty(rf, ty) {
             return Err(TypeError {
                 kind: TypeErrorKind::CiclicType { ty: ty.clone() },
                 span: span.clone(),
@@ -358,20 +376,20 @@ impl TypeChecker {
     }
 
     /// Checks if the provided `ty` is recursive
-    fn reccursive_ty(&self, ty_ref: TypeId, ty: &HirType) -> bool {
+    fn recursive_ty(&self, ty_ref: TypeId, ty: &HirType) -> bool {
         match ty {
             HirType::Reference { rf, .. } => {
                 if ty_ref == *rf {
                     true
                 } else if let Some(resolved) = self.types.get(rf) {
-                    self.reccursive_ty(ty_ref, resolved)
+                    self.recursive_ty(ty_ref, resolved)
                 } else {
                     false
                 }
             }
             HirType::Component { props } => props
                 .iter()
-                .any(|prop| self.reccursive_ty(ty_ref, self.types_module.get_type(&prop.2))),
+                .any(|prop| self.recursive_ty(ty_ref, self.types_module.get_type(&prop.2))),
             _ => false,
         }
     }
