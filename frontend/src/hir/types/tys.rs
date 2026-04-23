@@ -75,7 +75,9 @@ pub enum HirType {
 
     ///Equivalent type of `string` in js
     Str,
-
+    Enum{
+      variants: Vec<TypeId>,  
+    },
     GenericComponent,
     ///A type specific for components
     Component {
