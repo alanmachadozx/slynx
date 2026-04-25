@@ -16,7 +16,7 @@ use crate::hir::{
     declarations::DeclarationsModule,
     definitions::{
         ComponentMemberDeclaration, HirDeclaration, HirDeclarationKind, HirStatement,
-        HirStatementKind,
+        HirStatementKind
     },
     error::{HIRError, HIRErrorKind},
     scopes::ScopeModule,
@@ -181,7 +181,7 @@ impl SlynxHir {
             }
             ASTDeclarationKind::EnumDeclaration { name, variants } => {
                 let symbols = self.symbols_module.intern(&name.identifier);
-                let ty = self.types_module.insert_type(symbols, HirType::Enum);
+                let ty = self.types_module.insert_type(symbols, HirType::Enum{variants: variants.clone()});
                 self.declarations_module.create_declaration(symbols, ty);
             }
             ASTDeclarationKind::ObjectDeclaration { name, fields } => {
@@ -229,6 +229,9 @@ impl SlynxHir {
 
     fn resolve(&mut self, ast: ASTDeclaration) -> Result<()> {
         match ast.kind {
+            ASTDeclarationKind::EnumDeclaration { name, variants } => {
+                
+            }
             ASTDeclarationKind::ObjectDeclaration { name, fields } => {
                 self.resolve_object(name, fields, ast.span)?
             }

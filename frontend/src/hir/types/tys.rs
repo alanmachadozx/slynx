@@ -2,6 +2,7 @@ use crate::hir::{
     TypeId, VariableId,
     error::{HIRError, HIRErrorKind},
     symbols::SymbolPointer,
+    definitions::EnumVariant
 };
 use common::ast::{GenericIdentifier, VisibilityModifier};
 
@@ -76,7 +77,7 @@ pub enum HirType {
     ///Equivalent type of `string` in js
     Str,
     Enum{
-      variants: Vec<TypeId>,  
+      variants: Vec<EnumVariant>,  
     },
     GenericComponent,
     ///A type specific for components
